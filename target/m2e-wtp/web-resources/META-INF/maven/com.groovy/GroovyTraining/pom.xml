@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.groovy</groupId>
+  <artifactId>GroovyTraining</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <name>SparkTraining</name>
+	<url>https://github.com/Hinsteny/GroovyTraining</url>
+	
+	<developers>
+		<developer>
+	      <id>secrct</id>
+	      <name>Hinsteny Hisoka</name>
+	      <email>hinsteny@gmail.com</email>
+	    </developer>
+    </developers>
+    
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<org.eclipse.jetty.version>9.3.0.M2</org.eclipse.jetty.version>
+		<javax.servlet.version>3.1.0</javax.servlet.version>
+		<org.testng.version>6.9.6</org.testng.version>
+		<org.slf4j.version>1.7.7</org.slf4j.version>
+		<com.sparkjava.version>2.2</com.sparkjava.version>
+	</properties>
+	
+	<build>
+		<finalName>SparkTraining</finalName>
+		<plugins>
+			<!--java compile plugin include Groovy compile-->
+	        <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.3</version>
+              <configuration>
+                  <source>1.8</source>
+                  <target>1.8</target>
+				  <compilerId>groovy-eclipse-compiler</compilerId>
+			  </configuration>
+			  <dependencies>
+				<dependency>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-eclipse-compiler</artifactId>
+					<version>2.9.2-01</version>
+				</dependency>
+				<dependency>
+					<groupId>org.codehaus.groovy</groupId>
+				    <artifactId>groovy-eclipse-batch</artifactId>
+				    <version>2.4.3-01</version>
+				</dependency>
+			  </dependencies>
+	        </plugin>
+	        
+	        <!-- enabling the mvn jetty:run -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+			    <artifactId>jetty-maven-plugin</artifactId>
+			    <version>9.3.0.M2</version>
+				<configuration>
+					<!-- Uncomment to enable auto java class reload on java changes-->
+				    <scanIntervalSeconds>10</scanIntervalSeconds>
+				    <!-- Config the visit url -->
+				    <webApp>
+				      <contextPath>/</contextPath>
+				    </webApp>
+				    <!-- Config the visit port (http) -->
+				    <!-- <httpConnector>
+		          	     <port>80</port>
+		        	</httpConnector> -->
+		        	<!-- Config jetty with jetty.xml-->
+		        	<jettyXml>config/jetty.xml,config/jetty-ssl.xml,config/jetty-https.xml</jettyXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<!-- java servlet -->
+		<dependency>
+            <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-maven-plugin</artifactId>
+		    <version>9.3.0.M2</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- testNG -->
+        <dependency>
+		    <groupId>org.testng</groupId>
+		    <artifactId>testng</artifactId>
+		    <version>6.9.6</version>
+		</dependency>
+		
+		<!-- java servlet -->
+		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <!-- jfinal web rest framework -->
+		<dependency>
+		    <groupId>com.jfinal</groupId>
+		    <artifactId>jfinal</artifactId>
+		    <version>2.0</version>
+		</dependency>
+		
+		<!-- Groovy all dependency -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.4</version>
+        </dependency>
+	</dependencies>
+	
+</project>

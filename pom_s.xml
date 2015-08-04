@@ -1,0 +1,177 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.groovy</groupId>
+  <artifactId>GroovyTraining</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <name>SparkTraining</name>
+	<url>https://github.com/Hinsteny/GroovyTraining</url>
+	
+	<developers>
+		<developer>
+	      <id>secrct</id>
+	      <name>Hinsteny Hisoka</name>
+	      <email>hinsteny@gmail.com</email>
+	    </developer>
+    </developers>
+    
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<org.eclipse.jetty.version>9.3.0.M2</org.eclipse.jetty.version>
+		<javax.servlet.version>3.1.0</javax.servlet.version>
+		<org.testng.version>6.9.6</org.testng.version>
+		<org.slf4j.version>1.7.7</org.slf4j.version>
+		<com.sparkjava.version>2.2</com.sparkjava.version>
+	</properties>
+	
+	<build>
+		<finalName>SparkTraining</finalName>
+		<plugins>
+			<!--java compile plugin include Groovy compile-->
+	        <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.3</version>
+              <configuration>
+                  <source>1.8</source>
+                  <target>1.8</target>
+				  <compilerId>groovy-eclipse-compiler</compilerId>
+			  </configuration>
+			  <dependencies>
+				<dependency>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-eclipse-compiler</artifactId>
+					<version>2.9.2-01</version>
+				</dependency>
+				<dependency>
+					<groupId>org.codehaus.groovy</groupId>
+				    <artifactId>groovy-eclipse-batch</artifactId>
+				    <version>2.4.3-01</version>
+				</dependency>
+			  </dependencies>
+	        </plugin>
+	        
+	        <!-- enabling the mvn jetty:run -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+			    <artifactId>jetty-maven-plugin</artifactId>
+			    <version>${org.eclipse.jetty.version}</version>
+				<configuration>
+				    <connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+						  <port>80</port>
+						  <maxIdleTime>60000</maxIdleTime>
+						</connector>
+						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
+						  <port>8443</port>
+						  <maxIdleTime>60000</maxIdleTime>
+						  <Acceptors>2</Acceptors>
+						  <AcceptQueueSize>100</AcceptQueueSize>
+						  <keystore>${basedir}/keystore</keystore>
+						  <password>123456</password>
+						  <keyPassword>123456</keyPassword>
+						</connector>
+					</connectors>
+					<!-- Uncomment to enable auto java class reload on java changes-->
+				    <scanIntervalSeconds>10</scanIntervalSeconds>
+				    <webApp>
+				      <contextPath>/</contextPath>
+				    </webApp>
+				</configuration>
+			</plugin>
+			
+			 <!-- custom project catalogue structure-->
+			<plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>build-helper-maven-plugin</artifactId>
+			    <version>1.9.1</version>
+			    <executions>
+			      <execution>
+			        <id>add-source</id>
+			        <phase>generate-sources</phase>
+			        <goals>
+			          <goal>add-source</goal>
+			        </goals>
+			        <configuration>
+			          <sources>
+			            <source>src/main/groovy</source>
+			          </sources>
+			        </configuration>
+			      </execution>
+			      <execution>
+			        <id>add-test-source</id>
+			        <phase>generate-test-sources</phase>
+			        <goals>
+			          <goal>add-test-source</goal>
+			        </goals>
+			        <configuration>
+			          <sources>
+			            <source>src/test/groovy</source>
+			          </sources>
+			        </configuration>
+			      </execution>
+			    </executions>
+			  </plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											build-helper-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.9.1,)
+										</versionRange>
+										<goals>
+											<goal>add-source</goal>
+											<goal>add-test-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	
+	<dependencies>
+		<!-- java servlet -->
+		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+		<dependency>
+		    <groupId>com.jfinal</groupId>
+		    <artifactId>jfinal</artifactId>
+		    <version>2.0</version>
+		</dependency>
+		
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.4</version>
+        </dependency>
+	</dependencies>
+	
+</project>
